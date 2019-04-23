@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Comparison\" />
+    <Folder Include="Docker\Docker.DotNet\" />
   </ItemGroup>
 
 </Project>
