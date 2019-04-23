@@ -1,0 +1,132 @@
+﻿using NUnit.Framework;
+using StackExchange.Redis;
+using System;
+using System.Threading;
+
+namespace Redis
+{
+    public class RedisConnectionTest
+    {
+        [SetUp]
+        public void Setup()
+        {
+            // DockerClient client = new DockerClientConfiguration(new Uri("npipe://./pipe/docker_engine")).CreateClient();
+
+            
+        }
+
+
+        /// <summary>
+        /// The test only works if a redis is available. This can be started with a docker run command:
+        /// docker run --name dojoredis -p 6379:6379 -d redis
+        /// </summary>
+        [Test]
+        public void ConnectToRedisStoreValueAndLoadItAgain()
+        {
+            ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+
+            IDatabase db = multiplexer.GetDatabase();
+
+            string testkey = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+            string testvalue = DateTime.Now.ToLongTimeString();
+
+            db.StringSet(testkey, testvalue);
+
+            string result = db.StringGet(testkey);
+
+            Assert.Fail();
+        }
+
+        /// <summary>
+        /// The test only works if a redis is available. This can be started with a docker run command:
+        /// docker run --name dojoredis -p 6379:6379 -d redis
+        /// </summary>
+        [Test]
+        public void ConnectToRedisStoreValueWithExpireTimeAndLoadItAgainAfterTheValueIsExpired()
+        {
+            ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+
+            IDatabase db = multiplexer.GetDatabase();
+
+            string testkey = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+            string testvalue = DateTime.Now.ToLongTimeString();
+
+            db.StringSet(testkey, testvalue, new TimeSpan(0,0,5));
+
+            Thread.Sleep(4000);
+
+            var resultBeforeLifetimeIsExpired = db.StringGet(testkey);
+
+            Thread.Sleep(2000);
+
+            var resultAfterLifetimeIsExpired = db.StringGet(testkey);
+        }
+
+        /// <summary>
+        /// The test only works if a redis is available. This can be started with a docker run command:
+        /// docker run --name dojoredis -p 6379:6379 -d redis
+        /// </summary>
+        [Test]
+        public void RedisStressTestWithLifeTimeOf60Seconds()
+        {
+            ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+
+            IDatabase db = multiplexer.GetDatabase();
+
+            string testkey = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+            string testvalue = DateTime.Now.ToLongTimeString();
+
+            db.StringSet(testkey, testvalue, new TimeSpan(0, 0, 5));
+
+            Thread.Sleep(4000);
+
+            // Here The value is available, because the lifetime is 5s and only 4s are elapsed.
+            var resultBeforeLifetimeIsExpired = db.StringGet(testkey);
+
+            Thread.Sleep(2000);
+
+            // Here The value is not available, because the lifetime is 5s and in sum 6s are elapsed.
+            var resultAfterLifetimeIsExpired = db.StringGet(testkey);
+
+            Assert.Fail();
+        }
+
+        /// <summary>
+        /// The test only works if a redis is available. This can be started with a docker run command:
+        /// docker run --name dojoredis -p 6379:6379 -d redis
+        /// 
+        /// Start a portainer container and watch the statistics (memory, CPU-usage and NetWork)
+        /// </summary>
+        [Test]
+        public void TestWithALotOfData()
+        {
+            ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+
+            IDatabase db = multiplexer.GetDatabase();
+
+            string testkey = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+            string testvalue = DateTime.Now.ToLongTimeString();
+
+
+            for (int i = 0; i < 100000; i++)
+            {
+                // Store a big string
+                db.StringSet(i.ToString(), @"suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf
+                                            suhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslfsuhdfkjshndfkjsafdsjfdsndfsnfsjdflsjfdljslf"
+                        , new TimeSpan(0, 0, 60));
+
+            }
+
+            Assert.Fail();
+        }
+    }
+
+
+}
