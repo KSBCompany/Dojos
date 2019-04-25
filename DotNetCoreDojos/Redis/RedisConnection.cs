@@ -34,7 +34,7 @@ namespace Redis
 
             string result = db.StringGet(testkey);
 
-            Assert.Fail();
+            Assert.IsTrue(result == testvalue);
         }
 
         /// <summary>
@@ -114,6 +114,49 @@ namespace Redis
 
             //On my machine it took 50s to get here.
             int testbreakpoint = 1337;
+        }
+
+        /// <summary>
+        /// The test only works if a redis is available. This can be started with a docker run command:
+        /// docker run --name dojoredis -p 6379:6379 -d redis
+        /// </summary>
+        [Test]
+        public void DeleteKeyThatDoesntExistsInRedis()
+        {
+            ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+
+            IDatabase db = multiplexer.GetDatabase();
+
+            string testkey = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+
+            bool retVal = db.KeyDelete(testkey);
+
+            Assert.IsFalse(retVal, "The key is not available, the method should return false!");
+        }
+
+        /// <summary>
+        /// The test only works if a redis is available. This can be started with a docker run command:
+        /// docker run --name dojoredis -p 6379:6379 -d redis
+        /// </summary>
+        [Test]
+        public void DeleteKey()
+        {
+            ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+
+            IDatabase db = multiplexer.GetDatabase();
+
+            string testkey = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+            string testvalue = DateTime.Now.ToLongTimeString();
+
+            db.StringSet(testkey, testvalue);
+
+            string resultBeforeDeletion = db.StringGet(testkey);
+
+            bool retVal = db.KeyDelete(testkey);
+
+            string resultAfterDeletion = db.StringGet(testkey);
+
+            Assert.IsTrue(String.IsNullOrEmpty(resultAfterDeletion));
         }
     }
 }

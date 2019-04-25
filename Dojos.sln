@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCoreDojos", "DotNetCoreDojos\DotNetCoreDojos.csproj", "{365287D9-824D-4DF9-A1CE-2BC8F4FF5AE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreDojos", "DotNetCoreDojos\DotNetCoreDojos.csproj", "{365287D9-824D-4DF9-A1CE-2BC8F4FF5AE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{EDA2E802-9485-4B6E-B7C2-A691C4A61FAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{365287D9-824D-4DF9-A1CE-2BC8F4FF5AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{365287D9-824D-4DF9-A1CE-2BC8F4FF5AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{365287D9-824D-4DF9-A1CE-2BC8F4FF5AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA2E802-9485-4B6E-B7C2-A691C4A61FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA2E802-9485-4B6E-B7C2-A691C4A61FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA2E802-9485-4B6E-B7C2-A691C4A61FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA2E802-9485-4B6E-B7C2-A691C4A61FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

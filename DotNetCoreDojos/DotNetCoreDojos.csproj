@@ -17,6 +17,7 @@
   <ItemGroup>
     <Folder Include="Comparison\" />
     <Folder Include="Docker\Docker.DotNet\" />
+    <Folder Include="LINQ\" />
   </ItemGroup>
 
 </Project>
