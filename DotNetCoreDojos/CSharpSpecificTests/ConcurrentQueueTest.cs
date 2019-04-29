@@ -11,6 +11,11 @@ namespace CSharpSpecificTests
         {
         }
 
+
+        /// <summary>
+        /// Write a lot of strings with "aaaa" into queue.
+        /// Write one string with "bbbb" into queue
+        /// </summary>
         [Test]
         public void CheckIfAnElementIsAlreadyInTheQueue()
         {
