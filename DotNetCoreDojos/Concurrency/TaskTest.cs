@@ -112,6 +112,36 @@ namespace Concurrency
             Assert.IsTrue(task2.IsCompleted);
             Assert.IsTrue(task3.IsCompleted);
         }
+
+        /// <summary>
+        /// Wait for Tasks with different return types.
+        /// In this example one task returns string the other int.
+        /// </summary>
+        [Test]
+        public void TasksWithDifferentReturnTypes()
+        {
+            List<Task> ListOfTasks = new List<Task>();
+
+            var task1 = ConcurrencyTestClass.LoadSomethingFromRemoteResourceMock(1);
+            var task2 = ConcurrencyTestClass.LoadSomethingFromRemoteResourceMock_ReturnInt(1);
+
+
+            ListOfTasks.Add(task1);
+            ListOfTasks.Add(task2);
+
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            Task.WaitAll(ListOfTasks.ToArray(), 2000);
+
+            watch.Stop();
+
+            //ListOfTasks[0].
+
+            Assert.IsFalse(task1.IsCompleted);
+            Assert.IsTrue(task2.IsCompleted);
+        }
+
     }
 
 

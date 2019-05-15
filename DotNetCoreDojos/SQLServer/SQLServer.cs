@@ -16,10 +16,6 @@ namespace SQLServer
         }
 
 
-        /// <summary>
-        /// The test only works if a redis is available. This can be started with a docker run command:
-        /// docker run --name dojoredis -p 6379:6379 -d redis
-        /// </summary>
         [Test]
         public void ConnectToSqlServerWithIntegratedSecurity()
         {
@@ -45,16 +41,13 @@ namespace SQLServer
             sqlConnection.Close();
         }
 
-        /// <summary>
-        /// The test only works if a redis is available. This can be started with a docker run command:
-        /// docker run --name dojoredis -p 6379:6379 -d redis
-        /// </summary>
+
         [Test]
         public void ConnectToSqlServerWithUserNameAndPassword()
         {
             List<string> ListOfColumns = new List<string>();
 
-            string connectionString = @"Server=vdmbase_c; Database=MBASEP_C; Integrated Security=false; User Id=SVC-CUUR; Password=pobr#xaZOzeHitafLh1r;";
+            string connectionString = @"Server=vdmbase_c; Database=MBASEP_C; Integrated Security=false; User Id=SVC-CUUR; Password=@WSX2wsx;";
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -62,7 +55,7 @@ namespace SQLServer
 
             SqlCommand cmd = new SqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'R_2P_E04B'", sqlConnection);
 
-            var reader = cmd.ExecuteReader();
+            SqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {

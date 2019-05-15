@@ -23,5 +23,21 @@ namespace Concurrency
 
             return waitForThisString;
         }
+
+        public static async Task<int> LoadSomethingFromRemoteResourceMock_ReturnInt(int sleepSeconds)
+        {
+            int waitForThisInt = await Task.Run<int>(() =>
+            {
+                for (int i = 0; i < sleepSeconds; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine(Thread.CurrentThread.ManagedThreadId + " Loop-Number " + i);
+                    Thread.Sleep(1000);
+                }
+
+                return 42;
+            });
+
+            return waitForThisInt;
+        }
     }
 }
