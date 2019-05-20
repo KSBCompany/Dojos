@@ -17,14 +17,14 @@ namespace Collection
         [Test]
         public void AllElementsOfAMustBeAvailableInB()
         {
-            List<string> a = new List<string>() { "a", "b", "c", "d"};
+            List<string> a = new List<string>() { "c", "d"};
             List<string> b = new List<string>() { "c", "d", "e", "f"};
 
-            var result = b.FindAll(element => a.IndexOf(element) == -1);
+            var result = b.FindAll(element => a.Contains(element));
 
 
             var resultWithLinq = from element in b
-                                 where a.IndexOf(element) == -1
+                                 where a.Contains(element)
                                  select element.ToList();
 
         }

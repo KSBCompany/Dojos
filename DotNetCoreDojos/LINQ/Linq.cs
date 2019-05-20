@@ -130,6 +130,7 @@ namespace DotNetCoreDojos.LINQ
 
         /// <summary>
         /// In this test we select the integers in the class. Then the original values are not updated!
+        /// This is because classes are reference types and integers are value types.
         /// </summary>
         [Test]
         public void UpdateSpecificElementsFromAnotherList_ValueType()
