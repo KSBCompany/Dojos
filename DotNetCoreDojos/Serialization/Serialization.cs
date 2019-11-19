@@ -25,6 +25,21 @@ namespace Serialization
             public List<int> _ListOfNumbers;
         }
 
+        //NoSpecialSerializer
+        class SerializeThisClassAlternative
+        {
+            public string _Name;
+
+            [JsonIgnore]
+            public List<int> _ListOfNumbers;
+
+            public int QueueCount
+            {
+                get { return _ListOfNumbers.Count; }
+            }
+
+        }
+
         [Test]
         public void CustomSerializerTest()
         {
@@ -32,6 +47,20 @@ namespace Serialization
             SerializeThisClass testObj2 = new SerializeThisClass() { _Name = "a2", _ListOfNumbers = new List<int>() { 7, 8, 9 } };
 
             List<SerializeThisClass> myList = new List<SerializeThisClass>();
+            myList.Add(testObj1);
+            myList.Add(testObj2);
+
+
+            var serializedObject = Newtonsoft.Json.JsonConvert.SerializeObject(myList);
+        }
+
+        [Test]
+        public void CustomSerializerTestAlternative()
+        {
+            SerializeThisClassAlternative testObj1 = new SerializeThisClassAlternative() { _Name = "a1", _ListOfNumbers = new List<int>() { 1, 2, 3, 4, 5 } };
+            SerializeThisClassAlternative testObj2 = new SerializeThisClassAlternative() { _Name = "a2", _ListOfNumbers = new List<int>() { 7, 8, 9 } };
+
+            List<SerializeThisClassAlternative> myList = new List<SerializeThisClassAlternative>();
             myList.Add(testObj1);
             myList.Add(testObj2);
 

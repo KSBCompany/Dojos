@@ -35,6 +35,8 @@ namespace Reflection
         double input_Head { get; set; }
         double input_Flow { get; set; }
 
+        private double output_power;
+
 
         List<MyValue> storage;
 
