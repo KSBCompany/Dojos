@@ -6,12 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
+import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 
 //https://react-bootstrap.github.io/getting-started/introduction/
 
 
-function AlertDismissible() {
+/* function AlertDismissible() {
     const [show, setShow] = useState(true);
   
     return (
@@ -35,9 +37,45 @@ function AlertDismissible() {
       </>
     );
   }
-  
-  ReactDOM.render(<AlertDismissible />, document.getElementById('root'));
+ */  
 
+/* function GetNav(){
+  return (<Nav
+    activeKey="/home"
+    onSelect={selectedKey => alert(`selected ${selectedKey}`)}
+  >
+    <Nav.Item>
+      <Nav.Link href="/home">Home</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link eventKey="link-1">About me</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link eventKey="link-2">Nice pictures</Nav.Link>
+    </Nav.Item>
+  </Nav>);
+} */
+
+function GetLogin(){
+  return(
+    <Form>
+  <Form.Group controlId="formGroupEmail">
+    <Form.Label>Email address</Form.Label>
+    <Form.Control type="email" placeholder="Enter email" />
+  </Form.Group>
+  <Form.Group controlId="formGroupPassword">
+    <Form.Label>Password</Form.Label>
+    <Form.Control type="password" placeholder="Password" />
+  </Form.Group>
+  <Button variant="primary">Primary</Button>
+</Form>
+
+  )
+}
+
+//ReactDOM.render(<GetLogin />, document.getElementById('root'));
+
+  ReactDOM.render(<App />, document.getElementById('root'));
 
 
 // If you want your app to work offline and load faster, you can change
