@@ -10,10 +10,21 @@ import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 
+
+
+
+
 //https://react-bootstrap.github.io/getting-started/introduction/
 
 //https://mdbootstrap.com/education/react/agenda-1-hello-world/
 
+
+
+//ReactDOM.render(<h1>Hello World</h1>, document.getElementById('dynamic'));
+
+//ReactDOM.render(<GetLogin />, document.getElementById('root'));
+
+ReactDOM.render(<App />, document.getElementById('root'));
 
 /* function AlertDismissible() {
     const [show, setShow] = useState(true);
@@ -58,7 +69,7 @@ import { useState } from 'react';
   </Nav>);
 } */
 
-function GetLogin(){
+/* function GetLogin(){
   return(
     <Form>
   <Form.Group controlId="formGroupEmail">
@@ -73,13 +84,11 @@ function GetLogin(){
 </Form>
 
   )
-}
+} */
 
-//ReactDOM.render(<GetLogin />, document.getElementById('root'));
 
-//ReactDOM.render(<App />, document.getElementById('root'));
 
-ReactDOM.render(<h1>Hello World</h1>, document.getElementById('dynamic'));
+
 
 
 
