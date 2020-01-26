@@ -12,6 +12,8 @@ import { useState } from 'react';
 
 //https://react-bootstrap.github.io/getting-started/introduction/
 
+//https://mdbootstrap.com/education/react/agenda-1-hello-world/
+
 
 /* function AlertDismissible() {
     const [show, setShow] = useState(true);
@@ -75,7 +77,12 @@ function GetLogin(){
 
 //ReactDOM.render(<GetLogin />, document.getElementById('root'));
 
-  ReactDOM.render(<App />, document.getElementById('root'));
+//ReactDOM.render(<App />, document.getElementById('root'));
+
+ReactDOM.render(<h1>Hello World</h1>, document.getElementById('dynamic'));
+
+
+
 
 
 // If you want your app to work offline and load faster, you can change
