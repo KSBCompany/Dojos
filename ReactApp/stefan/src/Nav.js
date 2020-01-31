@@ -11,7 +11,7 @@ function MyNav() {
   return (
     <nav>
       <Link style={navStyle} to='/'>
-        <h3>Logo</h3>
+        <h3>This is the page of Stefan Weinschütz</h3>
       </Link>
         <ul className="nav-links">
           <Link style={navStyle} to='/about'>

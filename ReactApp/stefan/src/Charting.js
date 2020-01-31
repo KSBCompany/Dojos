@@ -7,8 +7,12 @@ import HighchartsReact from 'highcharts-react-official'
 const options = {
   series: [
     {
-      name: 'Profit',
-      data: [1, 2, 1, 4, 3, 6]
+      name: 'Curve1',
+      data: [500, 490, 450, 420, 350, 200]
+    },
+    {
+      name: 'Curve2',
+      data: [600, 550, 490, 400, 200, 50]
     }
   ]
 };
