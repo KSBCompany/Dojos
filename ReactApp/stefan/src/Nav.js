@@ -23,6 +23,9 @@ function MyNav() {
           <Link style={navStyle} to='/misc'>
             <li>Misc</li>
           </Link>
+          <Link style={navStyle} to='/charting'>
+          <li>Charting</li>
+          </Link>
         </ul>
     </nav>
   );

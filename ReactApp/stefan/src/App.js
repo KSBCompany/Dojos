@@ -6,6 +6,7 @@ import MyNav from './Nav';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Home from './Home';
 import Misc from './Misc';
+import Charting from './Charting';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/about" component={About} />
           <Route path="/shop" component={Shop} />
           <Route path="/misc" component={Misc}/>
+          <Route path="/charting" component={Charting}/>
         </Switch>
       </div>
     </Router>
