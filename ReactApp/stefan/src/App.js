@@ -3,14 +3,17 @@ import './App.css';
 import Shop from './Shop';
 import About from './About';
 import MyNav from './Nav';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <MyNav/>
-      <Shop/>
-      <About/>
-    </div>
+    <Router>
+      <div className="App">
+        <MyNav/>
+        <Route path="/about" component={About} />
+        <Route path="/shop" component={Shop} />
+      </div>
+    </Router>
   );
 }
 
