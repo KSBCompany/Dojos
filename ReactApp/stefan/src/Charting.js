@@ -2,29 +2,22 @@ import React from 'react';
 import './App.css';
 
 import Highcharts from 'highcharts';
-import HighchartsReact from 'react-highcharts'
+import HighchartsReact from 'highcharts-react-official'
 
-
+const options = {
+  series: [
+    {
+      name: 'Profit',
+      data: [1, 2, 1, 4, 3, 6]
+    }
+  ]
+};
 
 function Charting() {
 
-  const options = {
-    chart: {
-      type: 'spline'
-    },
-    title: {
-      text: 'My chart'
-    },
-    series: [
-      {
-        data: [1, 2, 1, 4, 3, 6]
-      }
-    ]
-  };
-
   return (
     <div>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+    <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );
 }
